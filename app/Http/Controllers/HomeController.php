@@ -17,4 +17,8 @@ class HomeController extends Controller
             'teams' => $this->teamService->getTeams(),
         ]);
     }
+
+    public function homepage(): View {
+        return view('home');
+    }
 }
