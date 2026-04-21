@@ -13,12 +13,8 @@ class HomeController extends Controller
 
     public function index(): View
     {
-        return view('teams-carousel', [
-            'teams' => $this->teamService->getTeams(),
+        return view('homepage', [
+            'ranking' => $this->teamService->getMedalRanking(),
         ]);
-    }
-
-    public function homepage(): View {
-        return view('home');
     }
 }
