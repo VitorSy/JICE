@@ -27,6 +27,28 @@ class TeamService
             ['team' => 'Fortaleza', 'gold' => 4, 'silver' => 3, 'bronze' => 5, 'points' => 23],
             ['team' => 'Ceará', 'gold' => 3, 'silver' => 4, 'bronze' => 6, 'points' => 23],
             ['team' => 'Athletico Paranaense', 'gold' => 3, 'silver' => 3, 'bronze' => 4, 'points' => 19],
+     * @return array<int, string>
+     */
+    public function getTeams(): array
+    {
+        return [
+            'Flamengo',
+            'Palmeiras',
+            'Corinthians',
+            'São Paulo',
+            'Santos',
+            'Vasco da Gama',
+            'Botafogo',
+            'Fluminense',
+            'Grêmio',
+            'Internacional',
+            'Atlético Mineiro',
+            'Cruzeiro',
+            'Bahia',
+            'Sport',
+            'Fortaleza',
+            'Ceará',
+            'Athletico Paranaense',
         ];
     }
 }
