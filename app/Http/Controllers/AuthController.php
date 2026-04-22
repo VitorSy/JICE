@@ -18,7 +18,7 @@ class AuthController extends Controller
         $credentials = $request->validated();
 
         if ($userService->authenticate($credentials)) {
-            return redirect()->route('homepage');
+            return redirect()->route('homepage', ['section' => 'ranking']);
         } else {
             return redirect()->back()->with(['loginError' => 'Credenciais inválidas.']);
         }

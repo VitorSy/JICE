@@ -27,8 +27,11 @@
                 <x-teams :teams="$teams" />
             </section>
             <section data-section="option-3" class="hidden rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-xl">
-                <p class="text-sm text-slate-300">Jogos</p>
-                <x-games />
+                @if (session('day'))
+                    <x-games :day="session('day')" />
+                @else
+                    <x-games />
+                @endif
             </section>
             <section data-section="option-4" class="hidden rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-xl">
                 <x-modals />
@@ -80,7 +83,9 @@
                     tab.addEventListener('click', () => activate(tab.dataset.tab));
                 });
 
-                activate('ranking');
+                const section = @json($section ?? 'ranking');
+
+                activate(section);
             })();
         </script>
     </body>

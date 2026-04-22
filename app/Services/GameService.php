@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class GameService
 {
+    public array $daysMap = [
+        'Seg' => 2,
+        'Ter' => 3,
+        'Qua' => 4,
+        'Qui' => 5,
+        'Sex' => 6,
+    ];
+
     /**
      * Create a new class instance.
      */
@@ -26,5 +34,10 @@ class GameService
         ]);
 
         return $game;
+    }
+
+
+    public function getGames(string $day) {
+        return Game::whereRaw('DAYOFWEEK(date) = ?', [$this->daysMap[$day]])->with(['teamOne', 'teamTwo', 'place', 'modal'])->get();
     }
 }

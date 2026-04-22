@@ -18,4 +18,9 @@ class ModalService
     public function getModals(){
         return Modal::all();
     }
+
+
+    public function getModal($value, $field='id') {
+        return Modal::where($field, $value)->first();
+    }
 }

@@ -6,7 +6,7 @@
     <div class="mb-6 flex items-center justify-between">
 
         <!-- Voltar -->
-        <a href="{{ route('homepage') }}"
+        <a href="{{ route('homepage', ['section' => 'option-2']) }}"
            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/80 text-white shadow ring-1 ring-white/10 hover:bg-slate-800">
             ←
         </a>

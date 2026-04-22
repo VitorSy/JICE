@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Place;
+use Illuminate\Database\Eloquent\Model;
 
 class PlaceService
 {
@@ -17,5 +18,10 @@ class PlaceService
 
     public function getPlaces(){
         return Place::all();
+    }
+
+
+    public function getPlace($value, $field='id'): Model|null {
+        return Place::where($field, $value)->first();
     }
 }

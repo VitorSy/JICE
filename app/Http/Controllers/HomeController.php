@@ -8,6 +8,7 @@ use App\Services\PlaceService;
 use App\Services\TeamService;
 use App\Services\ModalService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -28,7 +29,7 @@ class HomeController extends Controller
     }
 
 
-    public function homepage(): View {
+    public function homepage(string $section): View {
         $kidRanking = $this->teamService->getKidRanking();
         $teenRanking = $this->teamService->getTeenRanking();
         $teams = $this->teamService->getTeams();
@@ -37,6 +38,7 @@ class HomeController extends Controller
             'kidRanking' => $kidRanking,
             'teenRanking' => $teenRanking,
             'teams' => $teams,
+            'section' => $section,
         ]);
     }
 
@@ -54,7 +56,12 @@ class HomeController extends Controller
             abort(403);
         } else {
             $gameService->createGame($request->validated());
-            return redirect()->route('homepage');
+            return redirect()->route('homepage', ['section' => 'option-5']);
         }
+    }
+
+
+    public function gamesFilter(Request $request): RedirectResponse {
+        return redirect()->route('homepage', ['section' => 'option-3'])->with('day', $request->day);
     }
 }
