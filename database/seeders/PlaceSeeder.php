@@ -11,14 +11,19 @@ class PlaceSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void {
-        Place::create([
-            'name' => 'Campo 01',
-            'name' => 'Campo 02',
-            'name' => 'Ginásio 01',
-            'name' => 'Ginásio 02',
-            'name' => 'Quadra Areia 01',
-            'name' => 'Quadra Areia 02',
-            'name' => 'Sala de Jogos',
-        ]);
+        $places = [
+            "Campo 02",
+            "Ginásio 01",
+            "Ginásio 02",
+            "Quadra Areia 01",
+            "Quadra Areia 02",
+            "Sala de Jogos",
+        ];
+
+        foreach ($places as $place) {
+            Place::create([
+                'name' => $place,
+            ]);
+        }
     }
 }

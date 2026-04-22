@@ -15,3 +15,5 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/submit', [AuthController::class, 'submitLogin'])->name('submit.login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('/games_store', [HomeController::class, 'gamesStore'])->name('games.store');

@@ -37,6 +37,7 @@
                 <section data-section="option-5" class="hidden rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-xl">
                 <h2>Admin</h2>
                 <x-logout />
+                <x-create-game :teams="$teams"/>
                 </section>
             @endif
         </main>

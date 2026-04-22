@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GameRequest;
+use App\Services\GameService;
+use App\Services\PlaceService;
 use App\Services\TeamService;
+use App\Services\ModalService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function __construct(private readonly TeamService $teamService){
+    public function __construct(
+        private readonly TeamService $teamService, 
+    )
+    {
     }
 
 
@@ -24,6 +32,7 @@ class HomeController extends Controller
         $kidRanking = $this->teamService->getKidRanking();
         $teenRanking = $this->teamService->getTeenRanking();
         $teams = $this->teamService->getTeams();
+        
         return view('homepage', [
             'kidRanking' => $kidRanking,
             'teenRanking' => $teenRanking,
@@ -37,5 +46,15 @@ class HomeController extends Controller
         return view('components.team', [
             'team' => $team,
         ]);
+    }
+
+
+    public function gamesStore(GameRequest $request, GameService $gameService): RedirectResponse {
+        if (Gate::denies('is-admin')) {
+            abort(403);
+        } else {
+            $gameService->createGame($request->validated());
+            return redirect()->route('homepage');
+        }
     }
 }
