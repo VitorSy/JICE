@@ -7,95 +7,6 @@
         <title>Escolha seu time</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        /* From Uiverse.io by PriyanshuGupta28 */ 
-        .pushable {
-        position: relative;
-        background: transparent;
-        padding: 0px;
-        border: none;
-        cursor: pointer;
-        outline-offset: 4px;
-        outline-color: deeppink;
-        transition: filter 250ms;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        .shadow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: hsl(226, 25%, 69%);
-        border-radius: 8px;
-        filter: blur(2px);
-        will-change: transform;
-        transform: translateY(2px);
-        transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-        }
-
-        .edge {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        border-radius: 8px;
-        background: linear-gradient(
-            to right,
-            hsl(248, 39%, 39%) 0%,
-            hsl(248, 39%, 49%) 8%,
-            hsl(248, 39%, 39%) 92%,
-            hsl(248, 39%, 29%) 100%
-        );
-        }
-
-        .front {
-        display: block;
-        position: relative;
-        border-radius: 8px;
-        background: hsl(248, 53%, 58%);
-        padding: 16px 32px;
-        color: white;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        font-size: 1rem;
-        transform: translateY(-4px);
-        transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-        }
-
-        .pushable:hover {
-        filter: brightness(110%);
-        }
-
-        .pushable:hover .front {
-        transform: translateY(-6px);
-        transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-        }
-
-        .pushable:active .front {
-        transform: translateY(-2px);
-        transition: transform 34ms;
-        }
-
-        .pushable:hover .shadow {
-        transform: translateY(4px);
-        transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-        }
-
-        .pushable:active .shadow {
-        transform: translateY(1px);
-        transition: transform 34ms;
-        }
-
-        .pushable:focus:not(:focus-visible) {
-        outline: none;
-        }
-
-    </style>
     </head>
     <body class="min-h-dvh bg-slate-950 text-slate-100 antialiased">
         <main class="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center px-4 py-6 sm:max-w-lg">
@@ -110,10 +21,20 @@
                                     type="button"
                                     class="mx-auto block min-h-52 w-full rounded-2xl border border-indigo-300/30 bg-indigo-500/10 px-5 py-8 text-center text-xl font-semibold leading-tight text-indigo-100 transition active:scale-[0.99]"
                                 >
-                                    {{ $team }}
+                                    <img src="{{ $team->logo }}" alt="">
+                                    <span>{{ $team->name}}</span>
                                 </button>
                             </li>
                         @endforeach
+                        <li class="w-full shrink-0 p-5">
+                            <a
+                                href="{{ route('login') }}"
+                                type="button"
+                                class="mx-auto block min-h-52 w-full rounded-2xl border border-indigo-300/30 bg-indigo-500/10 px-5 py-8 text-center text-xl font-semibold leading-tight text-indigo-100 transition active:scale-[0.99]">
+                                <img src="" alt="">
+                                <span>Coordenação</span>
+                            </a>
+                        </li>
                     </ul>
 
                     <button
@@ -139,14 +60,36 @@
                     </button>
                 </div>
             </section>
-            <!-- From Uiverse.io by PriyanshuGupta28 --> 
-            <div class="text-center mt-5">
-                <a href="{{ route('homepage') }}" class="pushable">
-                    <span class="shadow"></span>
-                    <span class="edge"></span>
-                    <span class="front"> Continuar </span>
+            <div class="relative inline-flex items-center justify-center gap-4 group mt-6">
+                <div
+                    class="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"
+                ></div>
+                <a
+                    role="button"
+                    class="group relative inline-flex items-center justify-center text-base rounded-xl bg-gray-900 px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+                    title="payment"
+                    href="{{ route('homepage') }}"
+                    >Selecionar<svg
+                    aria-hidden="true"
+                    viewBox="0 0 10 10"
+                    height="10"
+                    width="10"
+                    fill="none"
+                    class="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
+                    >
+                    <path
+                        d="M0 5h7"
+                        class="transition opacity-0 group-hover:opacity-100"
+                    ></path>
+                    <path
+                        d="M1 1l4 4-4 4"
+                        class="transition group-hover:translate-x-[3px]"
+                    ></path>
+                    </svg>
                 </a>
             </div>
+
+            
 
         </main>
 
@@ -158,7 +101,7 @@
                 const nextButton = carousel?.querySelector('[data-next]');
                 const counter = document.querySelector('[data-counter]');
 
-                if (!track || !prevButton || !nextButton || !counter) {
+                if (!track || !prevButton || !nextButton) {
                     return;
                 }
 
@@ -169,7 +112,6 @@
 
                 const render = () => {
                     track.style.transform = `translateX(-${currentIndex * 100}%)`;
-                    counter.textContent = `${currentIndex + 1} / ${slides.length}`;
                 };
 
                 const goPrev = () => {
