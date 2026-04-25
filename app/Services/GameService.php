@@ -40,4 +40,17 @@ class GameService
     public function getGames(string $day) {
         return Game::whereRaw('DAYOFWEEK(date) = ?', [$this->daysMap[$day]])->with(['teamOne', 'teamTwo', 'place', 'modal'])->get();
     }
+
+
+    public function getGame(int $gameId): Game {
+        return Game::find($gameId);
+    }
+
+
+    public function updateGameScore(array $data): void {
+        $game = Game::find($data['game_id']);
+        $game->team_one_points = $data['team_one_points'];
+        $game->team_two_points = $data['team_two_points'];
+        $game->save();
+    }
 }

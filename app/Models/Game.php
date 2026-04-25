@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Game extends Model
 {
@@ -20,19 +21,28 @@ class Game extends Model
         'date',
     ];
 
-    public function modal(){
+
+    public function modal(): BelongsTo{
         return $this->belongsTo(Modal::class);
     }
 
-    public function teamOne(){
+
+    public function teamOne(): BelongsTo {
         return $this->belongsTo(Team::class, 'team_one_id');
     }
 
-    public function teamTwo(){
+
+    public function teamTwo(): BelongsTo {
         return $this->belongsTo(Team::class, 'team_two_id');
     }
 
+
     public function place(): BelongsTo {
         return $this->belongsTo(Place::class);
+    }
+
+
+    public function brackets(): HasMany {
+        return $this->hasMany(Bracket::class);
     }
 }

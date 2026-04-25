@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GameRequest;
+use App\Http\Requests\UpdateGameRequest;
+use App\Models\Game;
 use App\Services\GameService;
 use App\Services\PlaceService;
 use App\Services\TeamService;
@@ -16,6 +18,7 @@ class HomeController extends Controller
 {
     public function __construct(
         private readonly TeamService $teamService, 
+        private readonly GameService $gameService,
     )
     {
     }
@@ -51,11 +54,11 @@ class HomeController extends Controller
     }
 
 
-    public function gamesStore(GameRequest $request, GameService $gameService): RedirectResponse {
+    public function gamesStore(GameRequest $request): RedirectResponse {
         if (Gate::denies('is-admin')) {
             abort(403);
         } else {
-            $gameService->createGame($request->validated());
+            $this->gameService->createGame($request->validated());
             return redirect()->route('homepage', ['section' => 'option-5']);
         }
     }
@@ -63,5 +66,34 @@ class HomeController extends Controller
 
     public function gamesFilter(Request $request): RedirectResponse {
         return redirect()->route('homepage', ['section' => 'option-3'])->with('day', $request->day);
+    }
+
+
+    public function gamesEdit(int $game_id): View {
+        $game = $this->gameService->getGame($game_id);
+        return view('components.games-update', [
+            'game' => $game,
+            'editing' => true,
+        ]);
+    }
+
+
+    public function gamesUpdateScore(UpdateGameRequest $request): RedirectResponse {
+        if (Gate::denies('is-admin')) {
+            abort(403);
+        } else {
+            $data = $request->validated();
+            $this->gameService->updateGameScore($data);
+            // regra para atualizar a table de standings ou brackets.
+
+            return redirect()->back()->with('success', 'Placar atualizado com sucesso!');
+        }
+    }
+
+
+     public function modal(int $modal_id): View {
+        return view('modal', [
+            'modal_id' => $modal_id,
+        ]);
     }
 }

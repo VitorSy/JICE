@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->foreignId('place_id')->constrained('places')->cascadeOnDelete();
             $table->foreignId('modal_id')->constrained('modals')->cascadeOnDelete();
+            
+            $table->enum('format', ['standing', 'bracket'])->nullable();
 
             $table->foreignId('team_one_id')->constrained('teams')->cascadeOnDelete();
             $table->foreignId('team_two_id')->constrained('teams')->cascadeOnDelete();

@@ -1,0 +1,5 @@
+Erro 2001 -> No formulário de edição de resultado de games o id não chegou
+
+Erro 2002 -> No formulário de edição de resultado de games o id não é um integer
+
+Erro 2003 -> No formulário de edição de resultado de games o id não existe

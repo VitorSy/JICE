@@ -50,9 +50,19 @@
                         class="h-12 w-12 rounded-full object-cover ring-2 ring-slate-700"
                     >
                     <span>{{ $game['team_two'] }}</span>
-
                 </div>
-
+                @if(Gate::allows('is-admin'))
+                    <div class="flex justify-end mt-3">
+                        <a href="{{ route('games.edit', $game['id']) }}">
+                            <img
+                                src="{{ asset('assets/icons/pencil.png') }}"
+                                alt="editar"
+                                class="w-[20px] h-[20px] opacity-70 hover:opacity-100 transition"
+                            >
+                        </a>
+                    </div>
+                @endif
+                
             </div>
         @endforeach
 

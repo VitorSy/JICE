@@ -25,4 +25,14 @@ class Team extends Model
     public function gamesAsTeamTwo(){
         return $this->hasMany(Game::class, 'team_two_id');
     }
+
+
+    public function standings() {
+        return $this->hasMany(Standing::class);
+    }
+
+
+    public function wonBrackets() {
+        return $this->hasMany(Bracket::class, 'winner_team_id');
+    }
 }

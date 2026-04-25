@@ -27,7 +27,8 @@
         @endphp
 
         @foreach ($modalidades as $modalidade)
-            <button
+            <a
+                href="{{ route('modal', ['modal_id' => 1]) }}"
                 class="group flex w-full items-center justify-between rounded-2xl bg-slate-900/80 px-5 py-4 shadow-lg ring-1 ring-white/5 backdrop-blur transition-all duration-200 hover:bg-slate-800/90 hover:shadow-xl active:scale-[0.98]"
             >
                 <!-- Esquerda -->
@@ -48,7 +49,7 @@
                 <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800/70 text-slate-400 transition group-hover:bg-slate-700 group-hover:text-white">
                     →
                 </div>
-            </button>
+            </a>
         @endforeach
 
     </div>
