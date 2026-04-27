@@ -12,7 +12,9 @@ Route::get('/teste', function(){
 
 Route::get('/', [HomeController::class, 'index'])->name('index'); 
 
-Route::get('/home/{section}', [HomeController::class, 'homepage'])->name('homepage'); 
+Route::get('/home/{section}/{category?}', [HomeController::class, 'homepage'])->name('homepage'); 
+
+Route::get('/set/{category}', [HomeController::class, 'setCategory'])->name('set.category'); 
 
 Route::get('/team/{id}', [HomeController::class, 'showTeam'])->name('team.show');
 
@@ -28,6 +30,6 @@ Route::patch('/games_update', [HomeController::class, 'gamesUpdateScore'])->name
 
 Route::post('/games_filter', [HomeController::class, 'gamesFilter'])->name('games.filter');
 
-Route::get('/games_edit/{game_id}', [HomeController::class, 'gamesEdit'])->name('games.edit');
+Route::get('/games_edit/{game_id}/{category?}', [HomeController::class, 'gamesEdit'])->name('games.edit');
 
-Route::get('/modal/{modal_id}', [HomeController::class, 'modal'])->name('modal');
+Route::get('/modal/{modal_id}/{category}', [HomeController::class, 'modal'])->name('modal');

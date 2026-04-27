@@ -7,7 +7,7 @@
     <!-- Voltar -->
     <div>
         <a
-            href="{{ route('homepage', ['section' => 'option-3']) }}"
+            href="{{ route('modal', ['modal_id' => $game->modal_id, 'category' => $category]) }}"
             class="inline-flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 text-sm text-slate-300 ring-1 ring-white/5"
         >
             ← Voltar
@@ -60,7 +60,6 @@
                     <input
                         name="team_one_points"
                         value="{{ old('team_one_points',$game->team_one_points) }}"
-                        @disabled(!$editing)
                         class="
                             w-14 rounded-lg
                             bg-slate-800
@@ -98,7 +97,6 @@
                     <input
                         name="team_two_points"
                         value="{{ old('team_two_points',$game->team_two_points) }}"
-                        @disabled(!$editing)
                         class="
                             w-14 rounded-lg
                             bg-slate-800
@@ -117,43 +115,21 @@
 
             <!-- ação canto inferior direito -->
             <div class="mt-5">
-                @if(!$editing)
-                    <a
-                        href="{{ route('games.edit',[
-                            'game'=>$game->id,
-                            'edit'=>1
-                        ]) }}"
-                        class="
-                            block w-full rounded-2xl
-                            bg-indigo-500/20
-                            py-4
-                            text-center
-                            font-semibold
-                            text-indigo-200
-                            ring-1 ring-indigo-400/30
-                            transition
-                            hover:bg-indigo-500/30
-                        "
-                    >
-                        Editar placar
-                    </a>
-                @else
-                    <button
-                        type="submit"
-                        class="
-                            w-full rounded-2xl
-                            bg-emerald-500/20
-                            py-4
-                            font-semibold
-                            text-emerald-300
-                            ring-1 ring-emerald-400/30
-                            transition
-                            hover:bg-emerald-500/30
-                        "
-                    >
-                        Salvar placar
-                    </button>
-                @endif
+                <button
+                    type="submit"
+                    class="
+                        w-full rounded-2xl
+                        bg-emerald-500/20
+                        py-4
+                        font-semibold
+                        text-emerald-300
+                        ring-1 ring-emerald-400/30
+                        transition
+                        hover:bg-emerald-500/30
+                    "
+                >
+                    Salvar placar
+                </button>
             </div>
 
             @error('game_id')

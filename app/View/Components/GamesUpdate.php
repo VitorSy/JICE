@@ -20,15 +20,12 @@ class GamesUpdate extends Component
     {
         $this->gameId = $gameId;
         $this->game = Game::find($this->gameId)->toArray();
-        dd($this->game);
     }
 
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|Closure|string
-    {
-        dd($this->game);
+    public function render(): View|Closure|string{
         return view('components.games-update');
     }
 }

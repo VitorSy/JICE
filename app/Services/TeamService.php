@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Standing;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,20 @@ class TeamService
             ->get();
         return $teams;
     }
+
+
+    public function getTeamsByGroup(int $modal_id, string $group): Collection {
+        return Standing::with('team')
+                    ->where('modal_id', $modal_id)
+                    ->whereHas('team', function ($query) use ($group) {
+                        $query->where('name', 'like', "$group%");
+                    })
+                    ->orderByDesc('points')
+                    ->orderByDesc('goal_difference')->get();
+    }
+
+
+
 
 
     public function getMedalRanking(): array

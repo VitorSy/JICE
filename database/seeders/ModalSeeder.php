@@ -11,19 +11,71 @@ class ModalSeeder extends Seeder
     public function run()
     {
         $modalidades = [
-            ['name' => 'Futebol masculino', 'gender' => 'male'],
-            ['name' => 'Futebol feminino', 'gender' => 'female'],
-            ['name' => 'Volei quadra misto', 'gender' => 'mixed'],
-            ['name' => 'Volei areia misto', 'gender' => 'mixed'],
-            ['name' => 'Handball misto', 'gender' => 'mixed'],
-            ['name' => 'Futsal masculino', 'gender' => 'male'],
-            ['name' => 'Basquete misto', 'gender' => 'mixed'],
-            ['name' => 'Queimada misto', 'gender' => 'mixed'],
-            ['name' => 'Gincana misto', 'gender' => 'mixed'],
-            ['name' => 'Arrecadação de alimentos', 'gender' => 'mixed'],
-            ['name' => 'Arte Parede da Quadra', 'gender' => 'mixed'],
-            ['name' => 'Xadrez', 'gender' => 'mixed'],
-            ['name' => 'FIFA', 'gender' => 'mixed'],
+            [
+                'name' => 'Futebol masculino',
+                'gender' => 'male',
+                'icon' => '⚽',
+            ],
+            [
+                'name' => 'Futebol feminino',
+                'gender' => 'female',
+                'icon' => '⚽',
+            ],
+            [
+                'name' => 'Volei quadra misto',
+                'gender' => 'mixed',
+                'icon' => '🏐',
+            ],
+            [
+                'name' => 'Volei areia misto',
+                'gender' => 'mixed',
+                'icon' => '🏖️',
+            ],
+            [
+                'name' => 'Handball misto',
+                'gender' => 'mixed',
+                'icon' => '🤾',
+            ],
+            [
+                'name' => 'Futsal masculino',
+                'gender' => 'male',
+                'icon' => '⚽',
+            ],
+            [
+                'name' => 'Basquete misto',
+                'gender' => 'mixed',
+                'icon' => '🏀',
+            ],
+            [
+                'name' => 'Queimada misto',
+                'gender' => 'mixed',
+                'icon' => '🔥',
+            ],
+            [
+                'name' => 'Gincana misto',
+                'gender' => 'mixed',
+                'icon' => '🎯',
+            ],
+            [
+                'name' => 'Arrecadação de alimentos',
+                'gender' => 'mixed',
+                'icon' => '❤️',
+            ],
+            [
+                'name' => 'Arte Parede da Quadra',
+                'gender' => 'mixed',
+                'icon' => '🎨',
+            ],
+            [
+                'name' => 'Xadrez',
+                'gender' => 'mixed',
+                'icon' => '♟️',
+            ],
+            [
+                'name' => 'FIFA',
+                'gender' => 'mixed',
+                'icon' => '🎮',
+            ],
         ];
 
         foreach ($modalidades as $modal) {

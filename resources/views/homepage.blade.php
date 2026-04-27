@@ -34,7 +34,7 @@
                 @endif
             </section>
             <section data-section="option-4" class="hidden rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-xl">
-                <x-modals />
+                <x-modals  :category="$category" />
             </section>
             @if (Gate::allows('is-admin'))
                 <section data-section="option-5" class="hidden rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-xl">

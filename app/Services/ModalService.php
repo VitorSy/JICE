@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Modal;
+use Illuminate\Database\Eloquent\Collection;
 
 class ModalService
 {
@@ -15,7 +16,7 @@ class ModalService
     }
 
 
-    public function getModals(){
+    public function getModals(): Collection {
         return Modal::all();
     }
 

@@ -53,7 +53,7 @@
                 </div>
                 @if(Gate::allows('is-admin'))
                     <div class="flex justify-end mt-3">
-                        <a href="{{ route('games.edit', $game['id']) }}">
+                        <a href="{{ route('games.edit', ['game_id'=>$game['id']]) }}">
                             <img
                                 src="{{ asset('assets/icons/pencil.png') }}"
                                 alt="editar"

@@ -4,23 +4,26 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
+use App\Services\ModalService;
 
 class Modals extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
+    public string $category;
+    public Collection $modals;
+    
+    public function __construct(
+        string $category,
+    )
     {
-        //
+        $modalService = new ModalService();
+        $this->category = $category;
+        $this->modals = $modalService->getModals();
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
-    {
+
+    public function render(): View|Closure|string{
         return view('components.modals');
     }
 }

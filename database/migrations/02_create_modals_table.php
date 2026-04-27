@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('modals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('icon', 20);
             $table->enum('gender', ['male', 'female', 'mixed']);
             $table->timestamps();
         });

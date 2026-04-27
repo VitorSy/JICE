@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Game;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class GameService
@@ -54,5 +55,32 @@ class GameService
         $game->team_two_points = $data['team_two_points'];
         $game->save();
         return $game;
+    }
+
+
+    public function getGamesByGroup(int $modalId, string $group): Collection {
+        return Game::with([
+                'teamOne',
+                'teamTwo',
+                'place',
+                'modal'
+            ])
+            ->where('modal_id', $modalId)
+            ->whereHas('teamOne', function ($query) use ($group) {
+                $query->where(
+                    'name',
+                    'like',
+                    "{$group}%"
+                );
+            })
+            ->whereHas('teamTwo', function ($query) use ($group) {
+                $query->where(
+                    'name',
+                    'like',
+                    "{$group}%"
+                );
+            })
+            ->orderBy('date')
+            ->get();
     }
 }

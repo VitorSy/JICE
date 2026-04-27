@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Game;
+use App\Models\Standing;
 use App\Services\BracketServices;
 use App\Services\GameService;
 use App\Services\PlaceService;
 use App\Services\TeamService;
 use App\Services\ModalService;
-use App\Services\StandingServices;
+use App\Services\StandingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -21,7 +23,8 @@ class HomeController extends Controller
     public function __construct(
         private readonly TeamService $teamService, 
         private readonly GameService $gameService,
-        private readonly StandingServices $standingService,
+        private readonly StandingService $standingService,
+        private readonly ModalService $modalService,
     )
     {
     }
@@ -35,7 +38,7 @@ class HomeController extends Controller
     }
 
 
-    public function homepage(string $section): View {
+    public function homepage(string $section, string $category = 'kid'): View {
         $kidRanking = $this->teamService->getKidRanking();
         $teenRanking = $this->teamService->getTeenRanking();
         $teams = $this->teamService->getTeams();
@@ -45,6 +48,7 @@ class HomeController extends Controller
             'teenRanking' => $teenRanking,
             'teams' => $teams,
             'section' => $section,
+            'category' => $category ,
         ]);
     }
 
@@ -73,11 +77,11 @@ class HomeController extends Controller
     }
 
 
-    public function gamesEdit(int $game_id): View {
+    public function gamesEdit(int $game_id, string $category): View {
         $game = $this->gameService->getGame($game_id);
         return view('components.games-update', [
             'game' => $game,
-            'editing' => true,
+            'category' => $category,
         ]);
     }
 
@@ -87,18 +91,54 @@ class HomeController extends Controller
             abort(403);
         } else {
             $data = $request->validated();
-            $game = $this->gameService->updateGameScore($data);
-            // regra para atualizar a table de standings ou brackets.
-            // $this->standingService->updateStandingsAfterGameScoreUpdate($game);
+            DB::transaction(function () use ($data) {
+                $game = $this->gameService->updateGameScore($data);
+                $this->standingService->updateStandings($game);
+            });
 
             return redirect()->back()->with('success', 'Placar atualizado com sucesso!');
         }
     }
 
 
-     public function modal(int $modal_id): View {
+     public function modal(int $modal_id, string $category): View {
+        if(Gate::denies('is-admin')) {
+            abort(403);
+        }
+
+        $modalName = $this->modalService->getModal($modal_id)->name;
+        if($category==='kid'){
+            $groups = [
+                'A' => [
+                    'teams' => $this->teamService->getTeamsByGroup($modal_id, '6'),
+                    'games' => $this->gameService->getGamesByGroup($modal_id, '6'),
+                ],
+                'B' => [
+                    'teams' => $this->teamService->getTeamsByGroup($modal_id, '7'),
+                    'games' => $this->gameService->getGamesByGroup($modal_id, '7'),
+                ],
+            ];
+
+        } elseif($category==='teen') {
+            $groups = [
+                'A' => [
+                    'teams' => $this->teamService->getTeamsByGroup($modal_id, '8'),
+                    'games' => $this->gameService->getGamesByGroup($modal_id, '8'),
+                ],
+                'B' => [
+                    'teams' => $this->teamService->getTeamsByGroup($modal_id, '9'),
+                    'games' => $this->gameService->getGamesByGroup($modal_id, '9'),
+                ],
+            ];
+        } else {
+            abort(404);
+        }
+
         return view('modal', [
             'modal_id' => $modal_id,
+            'modalName' => $modalName,
+            'groups' => $groups,
+            'category' => $category,
         ]);
     }
 }

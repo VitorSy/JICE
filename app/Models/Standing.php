@@ -46,4 +46,45 @@ class Standing extends Model
     public function modal(): BelongsTo {
         return $this->belongsTo(Modal::class);
     }
+
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function addWin(): self {
+        $this->wins++;
+        $this->played++;
+        $this->points += 3;
+        $this->save();
+        return $this;
+    }
+
+
+    public function addDraw(): self {
+        $this->draws++;
+        $this->played++;
+        $this->points += 1;
+        $this->save();
+        return $this;
+    }
+
+
+    public function addLoss(): self {
+        $this->losses++;
+        $this->played++;
+        $this->save();
+        return $this;
+    }
+
+
+    public function updateGoals(int $goalsFor, int $goalsAgainst): self {
+        $this->goals_for += $goalsFor;
+        $this->goals_against += $goalsAgainst;
+        $this->goal_difference = $this->goals_for - $this->goals_against;
+        $this->save();
+        return $this;
+    }
 }
