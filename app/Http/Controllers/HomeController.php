@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Game;
+use App\Services\BracketServices;
 use App\Services\GameService;
 use App\Services\PlaceService;
 use App\Services\TeamService;
 use App\Services\ModalService;
+use App\Services\StandingServices;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -19,6 +21,7 @@ class HomeController extends Controller
     public function __construct(
         private readonly TeamService $teamService, 
         private readonly GameService $gameService,
+        private readonly StandingServices $standingService,
     )
     {
     }
@@ -58,7 +61,8 @@ class HomeController extends Controller
         if (Gate::denies('is-admin')) {
             abort(403);
         } else {
-            $this->gameService->createGame($request->validated());
+            $data = $request->validated();
+            $game = $this->gameService->createGame($data);
             return redirect()->route('homepage', ['section' => 'option-5']);
         }
     }
@@ -83,8 +87,9 @@ class HomeController extends Controller
             abort(403);
         } else {
             $data = $request->validated();
-            $this->gameService->updateGameScore($data);
+            $game = $this->gameService->updateGameScore($data);
             // regra para atualizar a table de standings ou brackets.
+            // $this->standingService->updateStandingsAfterGameScoreUpdate($game);
 
             return redirect()->back()->with('success', 'Placar atualizado com sucesso!');
         }

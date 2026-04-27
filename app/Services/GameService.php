@@ -26,6 +26,7 @@ class GameService
 
     public function createGame(array $data): Model {
         $game = Game::create([
+            'stage_type'  => $data['stage_type'],
             'team_one_id' => $data['team_one_id'],
             'team_two_id' => $data['team_two_id'],
             'place_id'    => $data['place_id'],
@@ -47,10 +48,11 @@ class GameService
     }
 
 
-    public function updateGameScore(array $data): void {
+    public function updateGameScore(array $data): Game {
         $game = Game::find($data['game_id']);
         $game->team_one_points = $data['team_one_points'];
         $game->team_two_points = $data['team_two_points'];
         $game->save();
+        return $game;
     }
 }

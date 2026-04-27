@@ -12,6 +12,7 @@ class PlaceSeeder extends Seeder
      */
     public function run(): void {
         $places = [
+            "Campo 01",
             "Campo 02",
             "Ginásio 01",
             "Ginásio 02",

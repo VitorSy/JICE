@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Game;
+use App\Models\Standing;
+
 class StandingServices
 {
     /**
@@ -10,6 +13,26 @@ class StandingServices
     public function __construct()
     {
         //
+    }
+
+
+    public function updateStandingsAfterGameScoreUpdate(Game $game){
+        $standing = Standing::updateOrCreate([
+            'modal_id' => $game->modal_id,
+            'team_id' => $game->team_one_id,
+            
+        ]);
+    }
+
+
+    public function whoWins(Game $game): int {
+        if($game->team_one_points > $game->team_two_points){
+            return $game->team_one_id;
+        } else if($game->team_two_points > $game->team_one_points){
+            return $game->team_two_id;
+        } else {
+            return 0; // empate
+        }
     }
 
 

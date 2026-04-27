@@ -3,3 +3,7 @@ Erro 2001 -> No formulário de edição de resultado de games o id não chegou
 Erro 2002 -> No formulário de edição de resultado de games o id não é um integer
 
 Erro 2003 -> No formulário de edição de resultado de games o id não existe
+
+Erro 2005 -> No formulário de crição de games o campo formato do jogo deve ser uma string.
+
+Erro 2006 -> No formulário de crição de games O campo formato do jogo deve ser "standing" ou "bracket".

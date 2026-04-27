@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Bracket;
+use App\Models\Game;
+
 class BracketServices
 {
     /**
