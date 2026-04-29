@@ -100,8 +100,8 @@ class GameSeeder extends Seeder
                                         $matchCounter % count($places)
                                     ],
 
-                                    'team_one_points' => 0,
-                                    'team_two_points' => 0,
+                                    // 'team_one_points' => 0,
+                                    // 'team_two_points' => 0,
 
                                     'date' => $gameDate,
 

@@ -16,42 +16,120 @@ class StandingService
     }
 
 
-    public function updateStandings(Game $game){
-        if($game->team_one_points > $game->team_two_points){
-            Standing::where('modal_id', $game->modal_id)
-                            ->where('team_id', $game->team_one_id)
-                            ->first()
-                            ->addWin()
-                            ->updateGoals($game->team_one_points, $game->team_two_points);
-            Standing::where('modal_id', $game->modal_id)
-                            ->where('team_id', $game->team_two_id)
-                            ->first()
-                            ->addLoss()
-                            ->updateGoals($game->team_two_points, $game->team_one_points);
+    public function addStandings(Game $game): void {
+        $standingTeamOne = Standing::where('modal_id', $game->modal_id)
+            ->where('team_id', $game->team_one_id)
+            ->first();
 
-        } else if($game->team_two_points > $game->team_one_points){
-            Standing::where('modal_id', $game->modal_id)
-                            ->where('team_id', $game->team_two_id)
-                            ->first()
-                            ->addWin()
-                            ->updateGoals($game->team_two_points, $game->team_one_points);
+        $standingTeamTwo = Standing::where('modal_id', $game->modal_id)
+            ->where('team_id', $game->team_two_id)
+            ->first();
 
-            Standing::where('modal_id', $game->modal_id)
-                            ->where('team_id', $game->team_one_id)
-                            ->first()
-                            ->addLoss()
-                            ->updateGoals($game->team_one_points, $game->team_two_points);
-        } else {
-            Standing::where('modal_id', $game->modal_id)
-                            ->where('team_id', $game->team_one_id)
-                            ->first()
-                            ->addDraw()
-                            ->updateGoals($game->team_one_points, $game->team_two_points);
-            Standing::where('modal_id', $game->modal_id)
-                            ->where('team_id', $game->team_two_id)
-                            ->first()
-                            ->addDraw()
-                            ->updateGoals($game->team_two_points, $game->team_one_points);
+        if ($game->team_one_points > $game->team_two_points) {
+            $standingTeamOne
+                ->addWin()
+                ->updateGoals(
+                    $game->team_one_points,
+                    $game->team_two_points
+                );
+
+            $standingTeamTwo
+                ->addLoss()
+                ->updateGoals(
+                    $game->team_two_points,
+                    $game->team_one_points
+                );
+
+        }
+        elseif ($game->team_two_points > $game->team_one_points) {
+            $standingTeamOne
+                ->addLoss()
+                ->updateGoals(
+                    $game->team_one_points,
+                    $game->team_two_points
+                );
+
+            $standingTeamTwo
+                ->addWin()
+                ->updateGoals(
+                    $game->team_two_points,
+                    $game->team_one_points
+                );
+
+        }
+        else {
+            $standingTeamOne
+                ->addDraw()
+                ->updateGoals(
+                    $game->team_one_points,
+                    $game->team_two_points
+                );
+
+            $standingTeamTwo
+                ->addDraw()
+                ->updateGoals(
+                    $game->team_two_points,
+                    $game->team_one_points
+                );
+        }
+    }
+
+
+    public function removeStandings(Game $game){
+        $standingTeamOne = Standing::where('modal_id', $game->modal_id)
+            ->where('team_id', $game->team_one_id)
+            ->first();
+        $team_one_points = $game->team_one_points;
+
+        $standingTeamTwo = Standing::where('modal_id', $game->modal_id)
+            ->where('team_id', $game->team_two_id)
+            ->first();
+        $team_two_points = $game->team_two_points;
+            
+        if($team_one_points > $team_two_points){
+            $standingTeamOne
+                    ->removeWin()
+                    ->updateGoals(
+                        -$team_one_points,
+                        -$team_two_points
+                    );
+
+            $standingTeamTwo
+                ->removeLoss()
+                ->updateGoals(
+                    -$team_two_points,
+                    -$team_one_points
+                );
+        } 
+        elseif($team_one_points < $team_two_points){
+            $standingTeamOne
+                ->removeLoss()
+                ->updateGoals(
+                    -$team_one_points,
+                    -$team_two_points
+                );
+
+            $standingTeamTwo
+                ->removeWin()
+                ->updateGoals(
+                    -$team_two_points,
+                    -$team_one_points
+                );
+        } 
+        else {
+            $standingTeamOne
+                ->removeDraw()
+                ->updateGoals(
+                    -$team_one_points,
+                    -$team_two_points
+                );
+
+            $standingTeamTwo
+                ->removeDraw()
+                ->updateGoals(
+                    -$team_two_points,
+                    -$team_one_points
+                );
         }
     }
 }

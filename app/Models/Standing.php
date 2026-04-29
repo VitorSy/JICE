@@ -63,6 +63,15 @@ class Standing extends Model
     }
 
 
+    public function removeWin(): self {
+        $this->wins--;
+        $this->played--;
+        $this->points -= 3;
+        $this->save();
+        return $this;
+    }
+
+
     public function addDraw(): self {
         $this->draws++;
         $this->played++;
@@ -71,10 +80,26 @@ class Standing extends Model
         return $this;
     }
 
+    public function removeDraw(): self {
+        $this->draws--;
+        $this->played--;
+        $this->points -= 1;
+        $this->save();
+        return $this;
+    }
+
 
     public function addLoss(): self {
         $this->losses++;
         $this->played++;
+        $this->save();
+        return $this;
+    }
+
+
+    public function removeLoss(): self {
+        $this->losses--;
+        $this->played--;
         $this->save();
         return $this;
     }

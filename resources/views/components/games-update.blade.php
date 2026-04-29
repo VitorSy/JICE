@@ -17,7 +17,14 @@
 
     <div class="rounded-2xl bg-slate-900/80 p-4 shadow-lg ring-1 ring-white/5 backdrop-blur">
 
-        <form method="POST" action="{{ route('games.updateScore', ['game_id' => $game->id]) }}">
+        <form
+            method="POST" 
+            action="{{ 
+                route('games.updateScore', [
+                    'game_id' => $game->id, 
+                ])
+             }}"
+        >
             @csrf
             @method('PATCH')
 

@@ -6,8 +6,8 @@ use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/teste', function(){
-    $game = Game::find(4)->toArray();
-    dd($game['date']);
+    $game = Game::find(290)->wasSet();
+    dd($game);
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('index'); 
@@ -30,6 +30,6 @@ Route::patch('/games_update', [HomeController::class, 'gamesUpdateScore'])->name
 
 Route::post('/games_filter', [HomeController::class, 'gamesFilter'])->name('games.filter');
 
-Route::get('/games_edit/{game_id}/{category?}', [HomeController::class, 'gamesEdit'])->name('games.edit');
+Route::get('/games_edit/{game_id}/{category?}}', [HomeController::class, 'gamesEdit'])->name('games.edit');
 
-Route::get('/modal/{modal_id}/{category}', [HomeController::class, 'modal'])->name('modal');
+Route::get('/modal/{modal_id}/{category}/{type_selected?}', [HomeController::class, 'modal'])->name('modal');

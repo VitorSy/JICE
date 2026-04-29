@@ -67,4 +67,20 @@ class Bracket extends Model
             'next_bracket_id'
         );
     }
+
+
+    // HELPERS:
+    public function isQuarter(): bool {
+        return $this->stage === 'quarter';
+    }
+
+    
+    public function isSemi(): bool {
+        return $this->stage === 'semi';
+    }
+
+
+    public function isFinal(): bool {
+        return $this->stage === 'final';
+    }
 }

@@ -7,3 +7,7 @@ Erro 2003 -> No formulário de edição de resultado de games o id não existe
 Erro 2005 -> No formulário de crição de games o campo formato do jogo deve ser uma string.
 
 Erro 2006 -> No formulário de crição de games O campo formato do jogo deve ser "standing" ou "bracket".
+
+Erro 2021 e 2022 -> No formulário de edição de placar de jogos ocorreu um erro no valor do parâmetro current_team_one_points da rota Post.
+
+Erro 2024 e 2025 -> No formulário de edição de placar de jogos ocorreu um erro no valor do parâmetro current_team_two_points da rota Post.

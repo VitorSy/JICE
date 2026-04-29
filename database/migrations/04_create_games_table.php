@@ -22,8 +22,8 @@ return new class extends Migration
             $table->foreignId('team_one_id')->constrained('teams')->cascadeOnDelete();
             $table->foreignId('team_two_id')->constrained('teams')->cascadeOnDelete();
 
-            $table->integer('team_one_points')->default(0);
-            $table->integer('team_two_points')->default(0);
+            $table->integer('team_one_points')->nullable();
+            $table->integer('team_two_points')->nullable();
 
             $table->dateTime('date')->nullable();
 

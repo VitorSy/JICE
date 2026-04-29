@@ -6,7 +6,7 @@ use App\Http\Requests\GameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Game;
 use App\Models\Standing;
-use App\Services\BracketServices;
+use App\Services\BracketService;
 use App\Services\GameService;
 use App\Services\PlaceService;
 use App\Services\TeamService;
@@ -23,7 +23,7 @@ class HomeController extends Controller
     public function __construct(
         private readonly TeamService $teamService, 
         private readonly GameService $gameService,
-        private readonly StandingService $standingService,
+        private readonly BracketService $bracketService,
         private readonly ModalService $modalService,
     )
     {
@@ -92,8 +92,7 @@ class HomeController extends Controller
         } else {
             $data = $request->validated();
             DB::transaction(function () use ($data) {
-                $game = $this->gameService->updateGameScore($data);
-                $this->standingService->updateStandings($game);
+                $this->gameService->updateGameScore($data);
             });
 
             return redirect()->back()->with('success', 'Placar atualizado com sucesso!');
@@ -101,12 +100,37 @@ class HomeController extends Controller
     }
 
 
-     public function modal(int $modal_id, string $category): View {
+     public function modal(int $modal_id, string $category, string $type_selected = 'groups'): View {
         if(Gate::denies('is-admin')) {
             abort(403);
         }
 
-        $modalName = $this->modalService->getModal($modal_id)->name;
+        $modal = $this->modalService->getModal($modal_id);
+
+        return view('modal', [
+            'modal_id' => $modal_id,
+            'modalName' => $modal->name,
+            'modalType' => $modal->type,
+            'groups' => $this->groupByCategory($modal_id, $category),
+            'category' => $category,
+            'type_selected' => $type_selected
+        ]);
+    }
+
+
+    // private function bracketByCategory(int $modal_id, string $category): array {
+    //     if($category==='kid'){
+    //         $brackets = $this->bracketService->getBracketsByModalAndCategory($modal_id, 'kid');
+    //     } elseif($category==='teen') {
+    //         $brackets = $this->bracketService->getBracketsByModalAndCategory($modal_id, 'teen');
+    //     } else {
+    //         abort(404);
+    //     }
+    //     return $brackets;
+    // }
+
+
+    private function groupByCategory(int $modal_id, string $category): array {
         if($category==='kid'){
             $groups = [
                 'A' => [
@@ -133,12 +157,6 @@ class HomeController extends Controller
         } else {
             abort(404);
         }
-
-        return view('modal', [
-            'modal_id' => $modal_id,
-            'modalName' => $modalName,
-            'groups' => $groups,
-            'category' => $category,
-        ]);
+        return $groups;
     }
 }

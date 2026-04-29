@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('icon', 20);
             $table->enum('gender', ['male', 'female', 'mixed']);
+            $table->enum('type', ['group', 'knockout']);
             $table->timestamps();
         });
     }

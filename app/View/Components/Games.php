@@ -21,9 +21,6 @@ class Games extends Component
 
     public function __construct(
         GameService $gameService, 
-        TeamService $teamService,
-        PlaceService $placeService,
-        ModalService $modalService,
         string $day = 'Seg',
     )
     {
@@ -33,11 +30,14 @@ class Games extends Component
             foreach ($games as $game) {
                 $this->games[] = [
                     'id' => $game->id,
-                    'team_one' => $teamService->getTeam($game->team_one_id)->name,
-                    'team_two' => $teamService->getTeam($game->team_two_id)->name,
-                    'place' => $placeService->getPlace($game->place_id)->name,
-                    'modal' => $modalService->getModal($game->modal_id)->name,
-                    'date' => $game->date,
+                    'team_one' => $game->TeamOne->name,
+                    'team_one_points' => $game->team_one_points,
+                    'team_two' => $game->TeamTwo->name,
+                    'team_two_points' => $game->team_two_points,
+                    'place' => $game->place->name,
+                    'modal' => $game->modal->name,
+                    'date' => $game->date->format('H:i'),
+                    'was_set' => $game->wasSet(),
                 ];
             }
         }

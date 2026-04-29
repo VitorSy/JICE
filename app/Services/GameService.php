@@ -19,7 +19,9 @@ class GameService
     /**
      * Create a new class instance.
      */
-    public function __construct()
+    public function __construct(
+        private readonly StandingService $standingService
+    )
     {
         //
     }
@@ -51,9 +53,13 @@ class GameService
 
     public function updateGameScore(array $data): Game {
         $game = Game::find($data['game_id']);
+        if($game->wasSet()) {
+            $this->standingService->removeStandings($game);
+        }
         $game->team_one_points = $data['team_one_points'];
         $game->team_two_points = $data['team_two_points'];
         $game->save();
+        $this->standingService->addStandings($game);
         return $game;
     }
 

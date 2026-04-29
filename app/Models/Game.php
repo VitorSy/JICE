@@ -22,6 +22,11 @@ class Game extends Model
     ];
 
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
+
     public function modal(): BelongsTo{
         return $this->belongsTo(Modal::class);
     }
@@ -44,5 +49,14 @@ class Game extends Model
 
     public function brackets(): HasMany {
         return $this->hasMany(Bracket::class);
+    }
+
+
+    // HELPERS:
+    public function wasSet(): bool {
+        if($this->team_one_points !== null && $this->team_two_points !== null) {
+            return true;
+        };
+        return false;
     }
 }
