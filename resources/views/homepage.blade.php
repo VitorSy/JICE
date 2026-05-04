@@ -14,8 +14,7 @@
 
             <section data-section="ranking" class="rounded-2xl border border-slate-700 bg-slate-900/70 p-3 shadow-xl">
                 <header class="mb-4">
-                    <h1 class="text-xl font-bold">Classificação de Equipes</h1>
-                    <p class="text-sm text-slate-400">Ouro, prata, bronze e pontuação total.</p>
+                    <h1 class="text-3xl font-bold text-center">Quadro de Medalhas</h1>
                 </header>
                 <x-ranking :ranking="$kidRanking" />
                 <br>

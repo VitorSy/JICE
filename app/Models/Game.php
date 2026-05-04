@@ -14,6 +14,8 @@ class Game extends Model
     protected $fillable = [
         'place_id',
         'modal_id',
+        'stage_type',
+        'category',
         'team_one_id',
         'team_two_id',
         'team_one_points',

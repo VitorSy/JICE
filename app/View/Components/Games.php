@@ -30,11 +30,11 @@ class Games extends Component
             foreach ($games as $game) {
                 $this->games[] = [
                     'id' => $game->id,
-                    'team_one' => $game->TeamOne->name,
+                    'team_one' => $game->TeamOne->name ?? 'Time 1',
                     'team_one_points' => $game->team_one_points,
-                    'team_two' => $game->TeamTwo->name,
+                    'team_two' => $game->TeamTwo->name ?? 'Time 2',
                     'team_two_points' => $game->team_two_points,
-                    'place' => $game->place->name,
+                    'place' => $game->place->name ?? 'Local a definir',
                     'modal' => $game->modal->name,
                     'date' => $game->date->format('H:i'),
                     'was_set' => $game->wasSet(),

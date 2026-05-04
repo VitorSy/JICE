@@ -33,3 +33,6 @@ Route::post('/games_filter', [HomeController::class, 'gamesFilter'])->name('game
 Route::get('/games_edit/{game_id}/{category?}}', [HomeController::class, 'gamesEdit'])->name('games.edit');
 
 Route::get('/modal/{modal_id}/{category}/{type_selected?}', [HomeController::class, 'modal'])->name('modal');
+
+Route::get('/process_knockout/{modal_id}/{category}', [HomeController::class, 'processKnockout'])->name('process.knockout');
+

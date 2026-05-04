@@ -29,60 +29,78 @@
         </h1>
 
         <!-- NOVOS BOTÕES TOPO -->
-        @if(Gate::allows('is-admin'))
-            @if ($modalType === 'group')
-                @if ($type_selected === 'groups')
-                    <div class="flex gap-2 rounded-2xl bg-slate-800 p-1 shadow-inner w-full max-w-md">
-                        <a
-                            href="{{ 
-                                route(
-                                    'modal', [
-                                        'modal_id' => $modal_id, 
-                                        'category' => $category, 
-                                        'type_selected' => 'groups'
-                                    ]
-                                )
-                            }}"
-                            class="flex-1 rounded-xl bg-indigo-500 px-4 py-3 text-center font-bold text-white shadow-md ring-2 ring-indigo-300 transition"
-                        >
-                            Grupos
-                        </a>
+        @if ($modalType === 'group')
+            @if ($type_selected === 'groups')
+                <div class="flex gap-2 rounded-2xl bg-slate-800 p-1 shadow-inner w-full max-w-md">
+                    <a
+                        href="{{ 
+                            route(
+                                'modal', [
+                                    'modal_id' => $modal_id, 
+                                    'category' => $category, 
+                                    'type_selected' => 'groups'
+                                ]
+                            )
+                        }}"
+                        class="flex-1 rounded-xl bg-indigo-500 px-4 py-3 text-center font-bold text-white shadow-md ring-2 ring-indigo-300 transition"
+                    >
+                        Grupos
+                    </a>
 
-                        <a
-                            href="{{ 
-                                route(
-                                    'modal', [
-                                        'modal_id' => $modal_id, 
-                                        'category' => $category, 
-                                        'type_selected' => 'knockout'
-                                    ]
-                                )
-                            }}"
-                            class="flex-1 rounded-xl px-4 py-3 text-center font-semibold text-slate-300 hover:bg-slate-700 transition"
-                        >
-                            Mata-mata
-                        </a>
+                    <a
+                        href="{{ 
+                            route(
+                                'modal', [
+                                    'modal_id' => $modal_id, 
+                                    'category' => $category, 
+                                    'type_selected' => 'knockout'
+                                ]
+                            )
+                        }}"
+                        class="flex-1 rounded-xl px-4 py-3 text-center font-semibold text-slate-300 hover:bg-slate-700 transition"
+                    >
+                        Mata-mata
+                    </a>
+                </div>
+            @elseif ($type_selected === 'knockout')
+                <div class="flex gap-2 rounded-2xl bg-slate-800 p-1 shadow-inner w-full max-w-md">
+                    <a
+                        href="{{ route('modal', ['modal_id' => $modal_id, 'category' => $category, 'type_selected' => 'groups']) }}"
+                        class="flex-1 rounded-xl px-4 py-3 text-center font-semibold text-slate-300 hover:bg-slate-700 transition"
+                    >
+                        Grupos
+                    </a>
 
-                    </div>
-                @elseif ($type_selected === 'knockout')
-                    <div class="flex gap-2 rounded-2xl bg-slate-800 p-1 shadow-inner w-full max-w-md">
-                        <a
-                            href="{{ route('modal', ['modal_id' => $modal_id, 'category' => $category, 'type_selected' => 'groups']) }}"
-                            class="flex-1 rounded-xl px-4 py-3 text-center font-semibold text-slate-300 hover:bg-slate-700 transition"
-                        >
-                            Grupos
-                        </a>
+                    <a
+                        href="{{ route('modal', ['modal_id' => $modal_id, 'category' => $category, 'type_selected' => 'knockout']) }}"
+                        class="flex-1 rounded-xl bg-indigo-500 px-4 py-3 text-center font-bold text-white shadow-md ring-2 ring-indigo-300 transition"
+                    >
+                        Mata-mata
+                    </a>
 
-                        <a
-                            href="{{ route('modal', ['modal_id' => $modal_id, 'category' => $category, 'type_selected' => 'knockout']) }}"
-                            class="flex-1 rounded-xl bg-emerald-500 px-4 py-3 text-center font-bold text-white shadow-md ring-2 ring-emerald-300 transition"
-                        >
-                            Mata-mata
-                        </a>
-
-                    </div>
-                @endif
+                </div>
             @endif
+        @endif
+
+        @if(Gate::allows('is-admin') && $modalType === 'group' && $type_selected === 'knockout')
+            <div class="mt-3 mb-6 flex justify-center">
+                <a
+                    href=" {{ route('process.knockout', ['modal_id' => $modal_id, 'category' => $category]) }}"
+                    class="
+                        inline-flex items-center gap-2
+                        rounded-xl
+                        bg-yellow-400
+                        px-5 py-2
+                        text-sm font-bold text-slate-900
+                        shadow-md
+                        ring-2 ring-yellow-300
+                        transition
+                        hover:bg-yellow-500
+                    "
+                >
+                    Gerar mata-mata
+                </a>
+            </div>
         @endif
     </section>
 
@@ -189,14 +207,8 @@
 
     @if( ($modalType === 'group' && $type_selected === 'knockout') || $modalType === 'knockout')
         <section class="rounded-2xl bg-slate-900/80 p-5 shadow-lg ring-1 ring-white/5">
-            <div class="mb-6 text-center">
-                <h2 class="text-xl font-semibold text-white">
-                    Mata-mata
-                </h2>
-            </div>
-
             <!-- QUARTAS -->
-            <div class="mb-6">
+            {{-- <div class="mb-6">
                 <h3 class="mb-3 text-sm font-semibold uppercase tracking-wide text-indigo-300">
                     Quartas
                 </h3>
@@ -230,7 +242,7 @@
                     @endforeach
 
                 </div>
-            </div>
+            </div> --}}
 
 
 
@@ -244,32 +256,62 @@
 
                     <div class="rounded-xl bg-slate-800 p-3">
                         <div class="flex items-center justify-between">
-                            <span>6A</span>
-
-                            <a
-                                href="{{ route('games.updateScore',31) }}"
-                                class="rounded-lg bg-slate-700 px-3 py-1 font-semibold hover:bg-slate-600"
-                            >
-                                2 x 1
-                            </a>
-
-                            <span>6B</span>
+                            @if(!$knockoutGames->isEmpty())
+                                <span>
+                                    {{ $knockoutGames->get(0)->game->teamOne->name }}
+                                </span>
+                                <!-- placar clicável -->
+                                @if(Gate::allows('is-admin'))
+                                    <a
+                                        href="{{ route('games.edit', ['game_id' => $knockoutGames->get(0)->game->id, 'category' => $category]) }}"
+                                        class="rounded-lg bg-slate-700 px-3 py-1 font-semibold hover:bg-slate-600 transition"
+                                    >
+                                        {{ $knockoutGames->get(0)->game->team_one_points }} x {{ $knockoutGames->get(0)->game->team_two_points }}
+                                    </a>
+                                @else
+                                    <span class="rounded-lg bg-slate-700 px-3 py-1 font-semibold">
+                                        {{ $knockoutGames->get(0)->game->team_one_points }} x {{ $knockoutGames->get(0)->game->team_two_points }}
+                                    </span>
+                                @endif
+                                <span>
+                                    {{ $knockoutGames->get(0)->game->teamTwo->name }}
+                                </span>
+                            @else
+                                <span>1º Grupo A</span>
+                                    X
+                                <span>2º Grupo B</span>
+                            @endif
                         </div>
                     </div>
 
 
                     <div class="rounded-xl bg-slate-800 p-3">
                         <div class="flex items-center justify-between">
-                            <span>7B</span>
-
-                            <a
-                                href="{{ route('games.updateScore',32) }}"
-                                class="rounded-lg bg-slate-700 px-3 py-1 font-semibold hover:bg-slate-600"
-                            >
-                                3 x 2
-                            </a>
-
-                            <span>7A</span>
+                            @if(!$knockoutGames->isEmpty())
+                                <span>
+                                    {{ $knockoutGames->get(1)->game->teamOne->name }}
+                                </span>
+                                <!-- placar clicável -->
+                                @if(Gate::allows('is-admin'))
+                                    <a
+                                        href="{{ route('games.edit', ['game_id' => $knockoutGames->get(1)->game->id, 'category' => $category]) }}"
+                                        class="rounded-lg bg-slate-700 px-3 py-1 font-semibold hover:bg-slate-600 transition"
+                                    >
+                                        {{ $knockoutGames->get(1)->game->team_one_points }} x {{ $knockoutGames->get(1)->game->team_two_points }}
+                                    </a>
+                                @else
+                                    <span class="rounded-lg bg-slate-700 px-3 py-1 font-semibold">
+                                        {{ $knockoutGames->get(1)->game->team_one_points }} x {{ $knockoutGames->get(1)->game->team_two_points }}
+                                    </span>
+                                @endif
+                                <span>
+                                    {{ $knockoutGames->get(1)->game->teamTwo->name }}
+                                </span>
+                            @else
+                                <span>1º Grupo B</span>
+                                X                                
+                                <span>2º Grupo A</span>
+                            @endif
                         </div>
                     </div>
 
@@ -287,23 +329,42 @@
                 <div class="rounded-2xl bg-gradient-to-r from-slate-800 to-slate-700 p-4 shadow-lg">
 
                     <div class="flex items-center justify-between text-lg font-semibold">
-
-                        <span>6A</span>
-
-                        <a
-                            href="{{ route('games.updateScore',41) }}"
-                            class="rounded-xl bg-yellow-400 px-4 py-2 text-slate-900"
-                        >
-                            2 x 1
-                        </a>
-
-                        <span>7B</span>
-
+                        @if(!$knockoutGames->isEmpty())
+                            @if($knockoutGames->get(1)->winner !== null && $knockoutGames->get(0)->winner !== null)
+                                <span>
+                                    {{ $knockoutGames->get(2)->game->teamOne->name }}
+                                </span>
+                                <!-- placar clicável -->
+                                @if(Gate::allows('is-admin'))
+                                    <a
+                                        href="{{ route('games.edit', ['game_id' => $knockoutGames->get(2)->game->id, 'category' => $category]) }}"
+                                        class="rounded-lg bg-slate-700 px-3 py-1 font-semibold hover:bg-slate-600 transition"
+                                    >
+                                        {{ $knockoutGames->get(2)->game->team_one_points }} x {{ $knockoutGames->get(2)->game->team_two_points }}
+                                    </a>
+                                @else
+                                    <span class="rounded-lg bg-slate-700 px-3 py-1 font-semibold">
+                                        {{ $knockoutGames->get(2)->game->team_one_points }} x {{ $knockoutGames->get(2)->game->team_two_points }}
+                                    </span>
+                                @endif
+                                <span>
+                                    {{ $knockoutGames->get(2)->game->teamTwo->name }}
+                                </span>
+                            @else
+                                <span>Semifinal 01</span>
+                                X
+                                <span>Semifinal 02</span>
+                            @endif
+                        @else
+                            <span>Semifinal 01</span>
+                            X
+                            <span>Semifinal 02</span>
+                        @endif
                     </div>
 
-                    <p class="mt-3 text-center text-sm text-yellow-300">
-                        Campeão: 6A
-                    </p>
+                    {{-- <p class="mt-3 text-center text-sm text-yellow-300">
+                        {{$knockoutGames->get(2)->winner ?? 'Campeão ainda não definido'}}
+                    </p> --}}
 
                 </div>
             </div>

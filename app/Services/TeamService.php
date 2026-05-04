@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Bracket;
+use App\Models\Game;
 use App\Models\Standing;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
@@ -53,9 +55,6 @@ class TeamService
                     ->orderByDesc('points')
                     ->orderByDesc('goal_difference')->get();
     }
-
-
-
 
 
     public function getMedalRanking(): array

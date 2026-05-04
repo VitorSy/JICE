@@ -57,9 +57,14 @@ class GameSeeder extends Seeder
 
 
         foreach($groups as $championship => $tournamentGroups){
-
             foreach($tournamentGroups as $groupName => $teamNames){
 
+                if($championship===67){
+                    $category = 'kid';
+                } else if($championship===89){
+                    $category = 'teen';
+                }
+                
                 $teams = Team::whereIn(
                     'name',
                     $teamNames
@@ -108,6 +113,7 @@ class GameSeeder extends Seeder
                                     // 'group_name' => $groupName,
                                     // 'championship' => $championship,
                                     // 'stage_type' => 'group',
+                                    'category' => $category,
                                 ]
 
                             );

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('place_id')->constrained('places')->cascadeOnDelete();
+            $table->foreignId('place_id')->nullable()->constrained('places')->cascadeOnDelete(); //Ainda não testado
             $table->foreignId('modal_id')->constrained('modals')->cascadeOnDelete();
             
-            $table->enum('stage_type', ['standing', 'bracket'])->nullable();
+            $table->enum('stage_type', ['standing', 'knockout'])->default('standing'); // Ainda não testado.
+            $table->enum('category', ['kid', 'teen'])->default('kid'); // Ainda não testado.
 
-            $table->foreignId('team_one_id')->constrained('teams')->cascadeOnDelete();
-            $table->foreignId('team_two_id')->constrained('teams')->cascadeOnDelete();
+            $table->foreignId('team_one_id')->nullable()->constrained('teams')->cascadeOnDelete(); //Ainda não testado
+            $table->foreignId('team_two_id')->nullable()->constrained('teams')->cascadeOnDelete(); //Ainda não testado
 
             $table->integer('team_one_points')->nullable();
             $table->integer('team_two_points')->nullable();

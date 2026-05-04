@@ -12,6 +12,7 @@ use App\Services\PlaceService;
 use App\Services\TeamService;
 use App\Services\ModalService;
 use App\Services\StandingService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +83,7 @@ class HomeController extends Controller
         return view('components.games-update', [
             'game' => $game,
             'category' => $category,
+            'stage_type' => $game->stage_type,
         ]);
     }
 
@@ -101,11 +103,11 @@ class HomeController extends Controller
 
 
      public function modal(int $modal_id, string $category, string $type_selected = 'groups'): View {
-        if(Gate::denies('is-admin')) {
-            abort(403);
+        if($type_selected !== 'groups' && $type_selected !== 'knockout') {
+            abort(404);
         }
-
         $modal = $this->modalService->getModal($modal_id);
+        $knockoutGames = $this->bracketService->getKnockoutGames($modal_id, $category);
 
         return view('modal', [
             'modal_id' => $modal_id,
@@ -113,8 +115,69 @@ class HomeController extends Controller
             'modalType' => $modal->type,
             'groups' => $this->groupByCategory($modal_id, $category),
             'category' => $category,
-            'type_selected' => $type_selected
+            'type_selected' => $type_selected,
+            'knockoutGames' => $knockoutGames,
         ]);
+    }
+
+
+    public function processKnockout(int $modal_id, string $category): RedirectResponse {
+        $knockoutTeams = $this->bracketService->getKnockoutTeams($modal_id, $category);
+        
+        $semiOne = [
+            'stage_type' => 'knockout',
+            'team_one_id' => $knockoutTeams->get(0)->team->id,
+            'team_two_id' => $knockoutTeams->get(3)->team->id,
+            'place_id' => null,
+            'modal_id' => $modal_id,
+            'date' => now(),
+        ];
+
+        $semiTwo = [
+            'stage_type' => 'knockout',
+            'team_one_id' => $knockoutTeams->get(1)->team->id,
+            'team_two_id' => $knockoutTeams->get(2)->team->id,
+            'place_id' => null,
+            'modal_id' => $modal_id,
+            'date' => now(),
+        ];
+
+        $gameFinal = [
+            'stage_type' => 'knockout',
+            'team_one_id' => null,
+            'team_two_id' => null,
+            'place_id' => null,
+            'modal_id' => $modal_id,
+            'date' => now(),
+        ];
+
+        DB::transaction(function () use ($modal_id, $category, $semiOne, $semiTwo, $gameFinal) {
+            $games = $this->gameService->getKnockoutGames($modal_id, $category);
+            if(!$games->isEmpty()){
+                foreach ($games as $game) {
+                    $game->delete();
+                    $game->brackets()->delete();
+                }
+            }
+
+            $gameSemiOne = $this->gameService->createGame($semiOne);
+            $this->bracketService->createOrUpdateBracket($modal_id, $gameSemiOne->id, 'semi', 1);
+
+            $gameSemiTwo = $this->gameService->createGame($semiTwo);
+            $this->bracketService->createOrUpdateBracket($modal_id, $gameSemiTwo->id, 'semi', 2);
+
+            // Final Game:
+            $gameFinal = $this->gameService->createGame($gameFinal);
+            $this->bracketService->createOrUpdateBracket($modal_id, $gameFinal->id, 'final', 3);
+
+            $gameSemiOne->brackets()->update(['next_bracket_id' => $gameFinal->brackets()->first()->id]);
+            $gameSemiTwo->brackets()->update(['next_bracket_id' => $gameFinal->brackets()->first()->id]);
+        });
+        
+
+        return redirect()
+                ->route('modal', ['modal_id' => $modal_id, 'category' => $category, 'type_selected' => 'knockout'])
+                ->with('success', 'Chaveamento atualizado com sucesso!');
     }
 
 
@@ -159,4 +222,6 @@ class HomeController extends Controller
         }
         return $groups;
     }
+
+
 }

@@ -20,7 +20,8 @@ class GameService
      * Create a new class instance.
      */
     public function __construct(
-        private readonly StandingService $standingService
+        private readonly StandingService $standingService,
+        private readonly BracketService $bracketService
     )
     {
         //
@@ -29,12 +30,12 @@ class GameService
 
     public function createGame(array $data): Model {
         $game = Game::create([
-            'stage_type'  => $data['stage_type'],
             'team_one_id' => $data['team_one_id'],
             'team_two_id' => $data['team_two_id'],
             'place_id'    => $data['place_id'],
             'modal_id'    => $data['modal_id'],
             'date'        => $data['date'],
+            'stage_type'  => $data['stage_type'],
         ]);
 
         return $game;
@@ -43,6 +44,14 @@ class GameService
 
     public function getGames(string $day) {
         return Game::whereRaw('DAYOFWEEK(date) = ?', [$this->daysMap[$day]])->with(['teamOne', 'teamTwo', 'place', 'modal'])->get();
+    }
+
+
+    public function getKnockoutGames(int $modal_id, string $category): Collection {
+        return Game::where('modal_id', $modal_id)
+                    ->where('category', $category)
+                    ->whereHas('brackets')
+                    ->get();
     }
 
 
@@ -60,6 +69,9 @@ class GameService
         $game->team_two_points = $data['team_two_points'];
         $game->save();
         $this->standingService->addStandings($game);
+        if($game->stage_type === 'knockout') {
+            $this->bracketService->updateBracketStandings($game);
+        }
         return $game;
     }
 
@@ -72,6 +84,7 @@ class GameService
                 'modal'
             ])
             ->where('modal_id', $modalId)
+            ->where('stage_type', 'standing')
             ->whereHas('teamOne', function ($query) use ($group) {
                 $query->where(
                     'name',

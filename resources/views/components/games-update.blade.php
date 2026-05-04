@@ -6,12 +6,21 @@
 
     <!-- Voltar -->
     <div>
-        <a
-            href="{{ route('modal', ['modal_id' => $game->modal_id, 'category' => $category]) }}"
-            class="inline-flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 text-sm text-slate-300 ring-1 ring-white/5"
-        >
-            ← Voltar
-        </a>
+        @if($stage_type === 'knockout')
+            <a
+                href="{{ route('modal', ['modal_id' => $game->modal_id, 'category' => $category, 'type_selected' => 'knockout']) }}"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 text-sm text-slate-300 ring-1 ring-white/5"
+            >
+                ← Voltar
+            </a>
+        @else
+            <a
+                href="{{ route('modal', ['modal_id' => $game->modal_id, 'category' => $category]) }}"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 text-sm text-slate-300 ring-1 ring-white/5"
+            >
+                ← Voltar
+            </a>
+        @endif
     </div>
 
 
@@ -36,7 +45,7 @@
                 </span>
 
                 <span>
-                    📍 {{ $game->place->name }}
+                    📍 {{ $game->place->name ?? 'Local a definir' }}
                 </span>
 
             </div>
