@@ -19,10 +19,13 @@
                             <li class="w-full shrink-0 p-5">
                                 <button
                                     type="button"
-                                    class="mx-auto block min-h-52 w-full rounded-2xl border border-indigo-300/30 bg-indigo-500/10 px-5 py-8 text-center text-xl font-semibold leading-tight text-indigo-100 transition active:scale-[0.99]"
+                                    class="mx-auto flex min-h-52 w-full items-center justify-center rounded-2xl border border-indigo-300/30 bg-indigo-500/10 px-5 py-8 text-center text-xl font-semibold leading-tight text-indigo-100 transition active:scale-[0.99]"
                                 >
-                                    <img src="{{ asset('assets/images/' . $team->logo) }}" alt="">
-                                    <span>{{ $team->name}}</span>
+                                    <img 
+                                        src="{{ asset('assets/images/' . $team->logo) }}" 
+                                        alt=""
+                                        class="max-h-24"
+                                    >
                                 </button>
                             </li>
                         @endforeach

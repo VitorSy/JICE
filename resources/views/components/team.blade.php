@@ -12,8 +12,7 @@
         </a>
 
         <!-- Instagram -->
-        <a href="{{ $team->instagram }}"
-           target="_blank"
+        <a href="#"
            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/80 text-pink-400 shadow ring-1 ring-white/10 hover:bg-slate-800">
             📸
         </a>
@@ -22,7 +21,7 @@
 
     <!-- Logo + Nome -->
     <div class="mb-6 text-center">
-        <img src="{{ $team->logo }}"
+        <img src="{{ asset('assets/images/' . $team->logo) }}"
              class="mx-auto mb-4 h-20 w-20 rounded-full ring-4 ring-slate-700">
 
         <h1 class="text-2xl font-bold text-white">
