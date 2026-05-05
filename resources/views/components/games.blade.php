@@ -22,8 +22,7 @@
             <div class="rounded-2xl bg-slate-900/80 p-4 shadow-lg ring-1 ring-white/5 backdrop-blur">
 
                 <!-- Modalidade + local -->
-                <div class="mb-4 flex items-center justify-between">
-
+                <div class="flex items-center justify-between">
                     <div class="text-lg font-semibold text-indigo-400">
                         {{ $game['modal'] }}
                     </div>
@@ -31,31 +30,27 @@
                     <span class="text-base text-slate-400">
                         📍 {{ $game['place'] }}
                     </span>
-
                 </div>
 
                 <!-- Horário sozinho -->
-                <div class="mb-2 text-base text-slate-400">
+                <div class="mb-4 text-base text-slate-400">
                     <span>
                         🕒 {{ $game['date'] }}
                     </span>
                 </div>
 
                 <!-- Times -->
-                <div class="flex items-center justify-center gap-6">
-
+                <div class="flex items-center justify-center gap-8">
                     <!-- Time 1 -->
                     <div class="flex flex-col items-center gap-2">
                         <img
-                            src=""
                             class="h-12 w-12 rounded-full object-cover ring-2 ring-slate-700"
+                            src="{{ asset('assets/images/' . $game['team_one_logo']) }}"
                         >
-
                         <span class="text-sm text-center">
                             {{ $game['team_one'] }}
                         </span>
                     </div>
-
 
                     <!-- placar -->
                     @if($game['was_set'])
@@ -65,40 +60,24 @@
                             {{ $game['team_two_points'] }}
                         </span>
                     @else
-
-                        <span class="text-slate-400 text-sm">
+                        <span class="text-slate-400 text-sm font-bold">
                             VS
                         </span>
-
                     @endif
 
 
                     <!-- Time 2 -->
                     <div class="flex flex-col items-center gap-2">
                         <img
-                            src=""
+                            src="{{ asset('assets/images/' . $game['team_two_logo']) }}"
                             class="h-12 w-12 rounded-full object-cover ring-2 ring-slate-700"
                         >
-
                         <span class="text-sm text-center">
                             {{ $game['team_two'] }}
                         </span>
                     </div>
 
                 </div>
-
-                @if(Gate::allows('is-admin'))
-                    <div class="flex justify-end mt-3">
-                        <a href="{{ route('games.edit', ['game_id'=>$game['id']]) }}">
-                            <img
-                                src="{{ asset('assets/icons/pencil.png') }}"
-                                alt="editar"
-                                class="w-[20px] h-[20px] opacity-70 hover:opacity-100 transition"
-                            >
-                        </a>
-                    </div>
-                @endif
-
             </div>
         @endforeach
 

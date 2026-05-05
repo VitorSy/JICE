@@ -21,7 +21,7 @@
                                     type="button"
                                     class="mx-auto block min-h-52 w-full rounded-2xl border border-indigo-300/30 bg-indigo-500/10 px-5 py-8 text-center text-xl font-semibold leading-tight text-indigo-100 transition active:scale-[0.99]"
                                 >
-                                    <img src="{{ $team->logo }}" alt="">
+                                    <img src="{{ asset('assets/images/' . $team->logo) }}" alt="">
                                     <span>{{ $team->name}}</span>
                                 </button>
                             </li>

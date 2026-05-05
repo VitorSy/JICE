@@ -11,6 +11,8 @@ class Team extends Model
 
     protected $fillable = [
         'name',
+        'logo',
+        'level',
         'gold',
         'silver',
         'bronze',

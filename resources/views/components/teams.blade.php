@@ -1,6 +1,6 @@
-<section class="mt-10">
+<section class="mt-2">
 
-    <h2 class="mb-6 text-center text-2xl font-semibold text-white">
+    <h2 class="mb-6 text-center text-3xl font-bold text-white">
         Times
     </h2>
 
@@ -14,7 +14,7 @@
                 <div class="flex items-center gap-4">
 
                     <!-- Logo -->
-                    <img src="{{ $team->logo }}"
+                    <img src="{{ asset('assets/images/' . $team->logo) }}"
                          class="h-12 w-12 rounded-full object-cover ring-2 ring-slate-700">
 
                     <!-- Nome -->
@@ -23,7 +23,9 @@
                     </span>
                 </div>
 
-                <span class="text-slate-400">→</span>
+                <div class="flex h-10 ml-1 w-10 items-center justify-center rounded-full bg-slate-800/70 text-slate-400 transition group-hover:bg-slate-700 group-hover:text-white">
+                    <img src="{{ asset('assets/icons/right-arrow.png') }}" width="24px" height="24px" alt="">
+                </div>
             </a>
         @endforeach
 

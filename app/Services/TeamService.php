@@ -11,9 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TeamService
 {
-    /**
-     * @return array<int, string>
-     */
+    
     public function getTeams(): Collection {
         return Team::orderBy('name')->get();
     }

@@ -16,6 +16,7 @@ class TeamSeeder extends Seeder
             $teams[] = [
                 'name' => '6' . $letra,
                 'level' => 'kid',
+                'logo' => '6' . $letra . '.png',
             ];
         }
 
@@ -24,6 +25,7 @@ class TeamSeeder extends Seeder
             $teams[] = [
                 'name' => '7' . $letra,
                 'level' => 'kid',
+                'logo' => '7' . $letra . '.png',
             ];
         }
 
@@ -32,6 +34,7 @@ class TeamSeeder extends Seeder
             $teams[] = [
                 'name' => '8' . $letra,
                 'level' => 'teen',
+                'logo' => '8' . $letra . '.png',
             ];
         }
 
@@ -40,12 +43,14 @@ class TeamSeeder extends Seeder
             $teams[] = [
                 'name' => '9' . $letra,
                 'level' => 'teen',
+                'logo' => '9' . $letra . '.png',
             ];
         }
 
         foreach ($teams as $team) {
             Team::create([
                 'name' => $team['name'],
+                'logo' => $team['logo'],
                 'level' => $team['level'],
                 'gold' => 0,
                 'silver' => 0,

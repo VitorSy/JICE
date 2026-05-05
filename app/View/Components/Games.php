@@ -32,8 +32,10 @@ class Games extends Component
                     'id' => $game->id,
                     'team_one' => $game->TeamOne->name ?? 'Time 1',
                     'team_one_points' => $game->team_one_points,
+                    'team_one_logo' => $game->TeamOne->logo ?? null,
                     'team_two' => $game->TeamTwo->name ?? 'Time 2',
                     'team_two_points' => $game->team_two_points,
+                    'team_two_logo' => $game->TeamTwo->logo ?? null,
                     'place' => $game->place->name ?? 'Local a definir',
                     'modal' => $game->modal->name,
                     'date' => $game->date->format('H:i'),
@@ -41,7 +43,6 @@ class Games extends Component
                 ];
             }
         }
-        
     }
 
 

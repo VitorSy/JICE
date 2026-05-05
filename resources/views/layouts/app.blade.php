@@ -12,7 +12,7 @@
 <body class="min-h-dvh bg-slate-950 text-slate-100 antialiased">
 
     <!-- Container principal -->
-    <main class="mx-auto min-h-dvh w-full max-w-md px-4 py-6">
+    <main class="mx-auto min-h-dvh w-full max-w-md py-6">
         @yield('content')
     </main>
 
